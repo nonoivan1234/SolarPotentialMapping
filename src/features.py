@@ -55,12 +55,8 @@ def label_potential(tile_count, q33, q66):
     return tile_count.apply(_label)
 
 
-def get_us_only_cols():
+def get_non_transferable_cols():
     return [
-        'incentive_count_residential', 'incentive_count_nonresidential',
-        'incentive_residential_state_level', 'incentive_nonresidential_state_level',
-        'net_metering', 'feedin_tariff', 'cooperate_tax', 'property_tax',
-        'sales_tax', 'rebate', 'avg_electricity_retail_rate',
         'race_asian', 'race_black_africa', 'race_indian_alaska',
         'race_islander', 'race_other', 'race_two_more', 'race_white',
         'race_white_rate', 'race_black_africa_rate', 'race_indian_alaska_rate',
@@ -69,6 +65,24 @@ def get_us_only_cols():
         'voting_2016_dem_percentage', 'voting_2016_gop_percentage', 'voting_2016_dem_win',
         'voting_2012_dem_percentage', 'voting_2012_gop_percentage', 'voting_2012_dem_win',
     ]
+
+
+def get_policy_concept_cols():
+    return [
+        'incentive_count_residential', 'incentive_count_nonresidential',
+        'incentive_residential_state_level', 'incentive_nonresidential_state_level',
+        'net_metering', 'feedin_tariff', 'cooperate_tax', 'property_tax',
+        'sales_tax', 'rebate', 'avg_electricity_retail_rate',
+    ]
+
+
+def get_us_only_cols():
+    """Legacy compatibility for notebooks kept under notebooks/legacy."""
+    return get_non_transferable_cols() + get_policy_concept_cols()
+
+
+def get_id_cols():
+    return ['lat', 'lon', 'Unnamed: 0']
 
 
 def get_target_cols():
@@ -82,14 +96,27 @@ def get_target_cols():
     ]
 
 
-def prepare_features(df, drop_us_only=True, drop_targets=True, drop_ids=True):
+def prepare_features(
+    df,
+    drop_non_transferable=True,
+    drop_policy_concepts=False,
+    drop_targets=True,
+    drop_ids=True,
+    drop_us_only=None,
+):
+    if drop_us_only is not None:
+        drop_non_transferable = drop_us_only
+        drop_policy_concepts = drop_us_only
+
     cols_to_drop = []
-    if drop_us_only:
-        cols_to_drop.extend(get_us_only_cols())
+    if drop_non_transferable:
+        cols_to_drop.extend(get_non_transferable_cols())
+    if drop_policy_concepts:
+        cols_to_drop.extend(get_policy_concept_cols())
     if drop_targets:
         cols_to_drop.extend(get_target_cols())
     if drop_ids:
-        cols_to_drop.extend(['lat', 'lon'])
+        cols_to_drop.extend(get_id_cols())
     cols_to_drop = [c for c in cols_to_drop if c in df.columns]
     return df.drop(columns=cols_to_drop)
 
