@@ -1,0 +1,2 @@
+model_family,train_positive_rows,test_positive_rows,mae_log1p,rmse_log1p,r2_log1p,mae_density,rmse_density,r2_density
+RandomForest,45006,11252,0.5472558793150679,0.7306521667525456,0.7500964881488537,257.78340512550835,9495.922753479426,0.08518400945341109

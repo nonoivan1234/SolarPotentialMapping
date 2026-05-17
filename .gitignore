@@ -224,7 +224,35 @@ __marimo__/
 
 # Project-specific: large data files and generated outputs
 deepsolar_tract.csv
+deep-solar-dataset.zip
 data/processed/
 data/taiwan/
 outputs/figures/
 outputs/results/
+
+# Private course materials — not for public repo
+docs/MDS_課程知識庫.md
+
+# Keep redesigned report/structure files while ignoring large generated artifacts.
+!data/
+!data/processed/
+!data/processed/**/
+data/processed/**/*.csv
+data/processed/**/*.json
+!data/processed/**/.gitkeep
+
+!outputs/
+!outputs/results/
+!outputs/results/**/
+outputs/results/**/*.csv
+outputs/results/**/*.pkl
+!outputs/results/**/*.md
+!outputs/results/transfer/*.csv
+!outputs/results/**/.gitkeep
+
+!outputs/figures/
+!outputs/figures/**/
+outputs/figures/**/*.png
+!outputs/figures/transfer/*.png
+!outputs/figures/legacy/*.png
+!outputs/figures/**/.gitkeep
