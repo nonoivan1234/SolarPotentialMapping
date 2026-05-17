@@ -136,24 +136,6 @@ New-Item -ItemType Directory -Force -Path data\processed\legacy, data\processed\
 
 ---
 
-## 建議閱讀順序
-
-### 第一層：只想了解結果（不需執行程式）
-
-1. 本 `README.md`
-2. 依序閱讀 `outputs/results/transfer/` 下的四份摘要：
-   - [`01_eda_summary_transfer.md`](outputs/results/transfer/01_eda_summary_transfer.md)：資料概況與欄位分群
-   - [`02_feature_selection_summary_transfer.md`](outputs/results/transfer/02_feature_selection_summary_transfer.md)：特徵篩選流程與兩種 feature set 說明
-   - [`03_model_us_twostage_summary_voted.md`](outputs/results/transfer/03_model_us_twostage_summary_voted.md)：Two-stage 模型結果與對比原論文
-   - [`03b_model_explainability_twostage_summary_voted.md`](outputs/results/transfer/03b_model_explainability_twostage_summary_voted.md)：SHAP 特徵重要性解釋
-
-### 第二層：深入了解設計邏輯或執行程式
-
-1. 先閱讀 [`docs/twostage_model.md`](docs/twostage_model.md)，了解 two-stage 模型的設計決策與技術細節
-2. 再依照下方「執行流程」逐步跑 notebook
-
----
-
 ## 執行流程
 
 ```bash
