@@ -1,8 +1,3 @@
-# Custom ignore for the project.
-data/
-.csv
-
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
@@ -226,7 +221,6 @@ __marimo__/
 deepsolar_tract.csv
 deep-solar-dataset.zip
 data/processed/
-data/taiwan/
 outputs/figures/
 outputs/results/
 
