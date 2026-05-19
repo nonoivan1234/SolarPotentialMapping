@@ -197,7 +197,7 @@ def fig_topsis_heatmap(df, out_path=None, dpi=300):
 
     # Title
     ax.set_title('太陽能推廣優先度 — TOPSIS 綜合排序\n'
-                 '(368 鄉鎮市區：模型潛力 × 日照 × 收入)',
+                 '(368 鄉鎮市區：模型潛力 × 日照 × FIT × 收入)',
                  fontsize=16, fontweight='bold', pad=16)
 
     # Annotation box
@@ -237,7 +237,7 @@ def fig_multi_panel(df, out_path=None, dpi=300):
         ('topsis_score', 'TOPSIS 綜合優先度', 'RdYlGn_r', 0.45, 0.85),
         ('combined_score', '模型部署傾向分數', 'viridis', 2.2, 2.95),
         ('daily_solar_radiation', '年均日照輻射量 (kWh/m²/day)', 'YlOrRd', 3.7, 4.8),
-        ('median_household_income', '家戶可支配所得中位數 (千元)', 'Blues', 300, 700),
+        ('avg_fit_rate', '平均躉購費率 (元/度)', 'Blues', 5.5, 6.6),
     ]
 
     fig, axes = plt.subplots(2, 2, figsize=(16, 18),
@@ -418,10 +418,10 @@ def fig_top20_detail(df, out_path=None, dpi=300):
     plt.colorbar(sc, ax=ax_map, shrink=0.5, pad=0.02, label='TOPSIS Score')
     ax_map.set_title('Top 20 優先鄉鎮市區分布', fontsize=13, fontweight='bold', pad=10)
 
-    # --- Top-right: radar / spider chart placeholder (3 metrics) ---
+    # --- Top-right: radar / spider chart placeholder (4 metrics) ---
     ax_radar = fig.add_subplot(gs[0, 1])
-    metrics = ['combined_score', 'daily_solar_radiation', 'median_household_income']
-    metric_labels = ['部署傾向', '日照輻射', '家戶收入']
+    metrics = ['combined_score', 'daily_solar_radiation', 'avg_fit_rate', 'median_household_income']
+    metric_labels = ['部署傾向', '日照輻射', 'FIT費率', '家戶收入']
     # Normalize to 0-1 for display
     norms = {}
     for m in metrics:
@@ -457,10 +457,11 @@ def fig_top20_detail(df, out_path=None, dpi=300):
             f"{row['topsis_score']:.3f}",
             f"{row['combined_score']:.3f}",
             f"{row['daily_solar_radiation']:.2f}",
+            f"{row['avg_fit_rate']:.2f}",
             f"{row['median_household_income']:.0f}",
         ])
 
-    col_labels = ['排名', '鄉鎮市區', 'TOPSIS', '部署傾向', '日照', '收入']
+    col_labels = ['排名', '鄉鎮市區', 'TOPSIS', '部署傾向', '日照', 'FIT', '收入']
     table = ax_table.table(
         cellText=table_data, colLabels=col_labels,
         loc='center', cellLoc='center',
