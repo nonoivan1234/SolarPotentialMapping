@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 
-def topsis(df, weights, benefit_criteria, alternative_col=None):
+def topsis(df, weights, benefit_criteria, alternative_col=None, norm_method='vector'):
     """
     TOPSIS (Technique for Order Preference by Similarity to Ideal Solution)
 
@@ -17,6 +17,10 @@ def topsis(df, weights, benefit_criteria, alternative_col=None):
         Criteria not in this list are treated as cost criteria.
     alternative_col : str, optional
         Column name for alternative identifiers. If None, uses index.
+    norm_method : {'vector', 'minmax'}, default 'vector'
+        'vector' : divide by Euclidean norm (traditional TOPSIS).
+        'minmax' : rescale to [0, 1] using (x - min) / (max - min).
+                   Use this when criteria have very different raw scales.
 
     Returns
     -------
@@ -29,8 +33,17 @@ def topsis(df, weights, benefit_criteria, alternative_col=None):
     mat = mat.apply(lambda col: col.fillna(col.mean()))
 
     # Normalize decision matrix
-    norms = np.sqrt((mat ** 2).sum(axis=0))
-    mat_norm = mat / norms
+    if norm_method == 'vector':
+        norms = np.sqrt((mat ** 2).sum(axis=0))
+        mat_norm = mat / norms
+    elif norm_method == 'minmax':
+        mat_min = mat.min()
+        mat_max = mat.max()
+        rng = mat_max - mat_min
+        rng = rng.replace(0, 1)  # avoid division by zero for constant columns
+        mat_norm = (mat - mat_min) / rng
+    else:
+        raise ValueError(f"norm_method must be 'vector' or 'minmax', got {norm_method}")
 
     # Weighted normalized matrix
     w = np.array([weights[c] for c in criteria])

@@ -1,6 +1,6 @@
-# 04b 
+# 04b 台灣人口特徵資料
 
-**產出負責人**：人口資料收集階段  
+**產出負責人**：`notebooks/04b_taiwan_population.ipynb`  
 **下一步負責人**：`04_transfer_taiwan.ipynb` 整合推論階段  
 **資料時間範圍**：民國 109 年（2020 年）  
 **地理單位**：台灣 368 個鄉鎮市區（TOWNCODE）
@@ -10,7 +10,7 @@
 ## 1. 產出檔案位置
 
 ```
-data/processed/
+data/taiwan/population/
 └── taiwan_population_features.csv    ← 主要輸出，直接使用這個
 
 data/taiwan/                          ← 原始資料來源（勿修改）
@@ -27,7 +27,7 @@ data/taiwan/                          ← 原始資料來源（勿修改）
 
 ## 2. 主要輸出：`taiwan_population_features.csv`
 
-**Shape：368 行 × 16 欄**（每個鄉鎮市區一行，無缺值）
+**Shape：368 行 × 17 欄**（每個鄉鎮市區一行，無缺值）
 
 ### 識別欄位
 
@@ -44,6 +44,7 @@ data/taiwan/                          ← 原始資料來源（勿修改）
 | `population` | 人 | 常住人口數 | 同名 | 64,025 |
 | `population_density` | 人/km² | 常住人口密度 | 同名 | 2,748 |
 | `land_area_km2` | km² | 土地面積（輔助欄位） | — | — |
+| `total_area` | sq. miles | 土地面積（km² ÷ 2.58999，對應 US `total_area`） | `total_area` | — |
 | `age_median` | 歲 | 平均年齡（近似中位數） | 同名 | 43.4 |
 | `age_35_44_rate` | 比率 | 35–44 歲人口比 | 同名 | — |
 | `age_45_54_rate` | 比率 | 45–54 歲人口比 | 同名 | — |
@@ -157,6 +158,7 @@ print(taiwan_full.shape)   # (368, ...)
 
 ## 8. 注意事項
 
+- **`total_area` 定義差異**：US DeepSolar 的 `total_area` 為 Land + Water Area（含水域），台灣此欄以純陸地面積近似（`land_area_km2 / 2.58999`）。台灣鄉鎮水域佔比通常極小，誤差可接受。換算常數：1 sq. mile = 2.58999 km²。
 - **`household_type_family_rate`**（家庭戶比率）：DeepSolar voted 特徵集包含此欄，但 SHAP 重要性極低（未進前 15），且台灣無對應公開資料，推論時可填全台均值（約 0.80）或直接以全台常數代替。
-- **XLS 特殊格式**：原始人口密度 XLS 中，原住民族山地鄉（如復興區、和平區、茂林區等共 32 個）縮排格式與一般鄉鎮不同，`src/features.py` 已處理，若換用其他年份資料需注意。
+- **XLS 特殊格式**：原始人口密度 XLS 中，原住民族山地鄉（如復興區、和平區、茂林區等共 32 個）縮排格式與一般鄉鎮不同，`notebooks/04b_taiwan_population.ipynb` 已處理，若換用其他年份資料需注意。
 - **基隆市**：年齡結構檔案曾誤放人口密度表（表１），正確檔案為表３（含平均年齡欄位）。

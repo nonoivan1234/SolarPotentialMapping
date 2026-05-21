@@ -202,6 +202,7 @@ cython_debug/
 # .vscode/
 # Temporary file for partial code execution
 tempCodeRunnerFile.py
+_run_*
 
 # Ruff stuff:
 .ruff_cache/
@@ -250,3 +251,6 @@ outputs/figures/**/*.png
 !outputs/figures/transfer/*.png
 !outputs/figures/legacy/*.png
 !outputs/figures/**/.gitkeep
+
+# ignore tex files
+main*

@@ -663,9 +663,9 @@ def align_taiwan_population_features(data_dir, climate_csv=None, save_path=None)
 
     Returns
     -------
-    pd.DataFrame (368 rows × 16 columns)
+    pd.DataFrame (368 rows × 17 columns)
         TOWNCODE, COUNTYNAME, TOWNNAME, population, population_density,
-        land_area_km2, age_* (9 features), age_median, average_household_size.
+        land_area_km2, total_area, age_* (9 features), age_median, average_household_size.
     """
     xls_path  = os.path.join(data_dir, '民國97-114年各縣市鄉鎮市區土地面積及人口密度.xls')
     age_dir   = os.path.join(data_dir, '民國109年常住人口之年齡結構')
@@ -693,9 +693,13 @@ def align_taiwan_population_features(data_dir, climate_csv=None, save_path=None)
         .drop(columns=['county_zh', 'town_zh'])
     )
 
+    # land_area_km2 (km²) → total_area (sq. miles); 1 sq. mile = 2.58999 km²
+    # US total_area includes water area; Taiwan land-only is an acceptable proxy
+    result['total_area'] = result['land_area_km2'] / 2.58999
+
     cols = [
         'TOWNCODE', 'COUNTYNAME', 'TOWNNAME',
-        'population', 'population_density', 'land_area_km2',
+        'population', 'population_density', 'land_area_km2', 'total_area',
         'age_5_9_rate', 'age_10_14_rate', 'age_15_17_rate',
         'age_35_44_rate', 'age_45_54_rate', 'age_55_64_rate',
         'age_65_74_rate', 'age_more_than_85_rate', 'age_median',

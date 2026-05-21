@@ -10,3 +10,4 @@ jupyter>=1.0.0
 notebook>=7.0.0
 kaggle
 shap>=0.45.0
+cartopy>=0.22.0

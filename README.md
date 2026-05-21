@@ -55,24 +55,45 @@ project/
 │   │   ├── legacy/             # 舊版 baseline 輸出
 │   │   └── transfer/           # 台灣遷移導向新版輸出
 │   └── taiwan/                # 台灣對應資料
+│       ├── climate/            # NASA POWER 氣象/日照資料
+│       ├── power/              # 台電用電與電價資料
+│       ├── income/             # 主計總處家戶收支資料
+│       ├── population/         # 內政部戶政人口資料
+│       ├── 住宅資料/            # 住宅特徵（自有率、房價等）
+│       ├── 社經資料/            # 失業率、教育程度等
+│       ├── 政策資料/            # 能源局 FIT / 補助政策
+│       ├── 氣候資料/            # 彙整後氣候特徵
+│       ├── 電力資料/            # 彙整後電力特徵
+│       ├── 收入資料/            # 彙整後收入特徵
+│       ├── 人口資料/            # 彙整後人口特徵
+│       └── 直轄市、縣(市)界線/   # 內政部 MOI 行政邊界 SHP
 ├── notebooks/
-│   ├── 01_eda.ipynb           # 探索性資料分析
-│   ├── 02_feature_selection.ipynb   # VIF 與 tree/transfer 特徵集
-│   ├── 03_model_us.ipynb      # 美國三分類 baseline 模型
-│   ├── 03_model_us_twostage.ipynb   # Two-stage / SolarForest-style 正式模型
+│   ├── 01_eda.ipynb                     # 探索性資料分析
+│   ├── 02_feature_selection.ipynb       # VIF 與 tree/transfer 特徵集
+│   ├── 03_model_us.ipynb                # 美國三分類 baseline 模型
+│   ├── 03_model_us_twostage.ipynb       # Two-stage / SolarForest-style 正式模型
 │   ├── 03b_model_explainability.ipynb   # SHAP 模型解釋（三分類）
 │   ├── 03b_model_explainability_twostage.ipynb  # SHAP 模型解釋（two-stage）
-│   ├── legacy/                 # 舊版 notebook 備份
-│   ├── 04_transfer_taiwan.ipynb     # 台灣遷移推論
-│   └── 05_mada.ipynb          # MADA 優先序排名
+│   ├── 04_transfer_taiwan.ipynb         # 台灣遷移推論
+│   ├── 04a_taiwan_climate_collection.ipynb    # NASA POWER 氣候資料蒐集
+│   ├── 04c_taiwan_income_features.ipynb       # 台灣收入特徵建置
+│   ├── 04d_taiwan_electricity_features.ipynb  # 台灣電力特徵建置
+│   ├── 05_mada.ipynb                    # MADA 優先序排名
+│   └── legacy/                          # 舊版 notebook 備份
 ├── src/
 │   ├── features.py            # 特徵工程
 │   ├── model.py               # 模型訓練與評估
-│   └── mada.py                # MADA 排序（TOPSIS）
+│   ├── mada.py                # MADA 排序（TOPSIS）
+│   └── taiwan_maps.py         # 台灣地理視覺化（Cartopy 熱力圖 / 分布圖）
 └── outputs/
     ├── figures/
     │   ├── legacy/             # 舊版圖表
     │   └── transfer/           # 新版圖表
+    │       ├── 01_– 03b_       # EDA、特徵篩選、模型、SHAP
+    │       ├── 04_             # 台灣遷移推論分布圖
+    │       ├── 05_             # MADA TOPSIS 排序總覽
+    │       ├── 06_             # 外部驗證（預測 vs 實際）
+│       └── map_01_– map_04_  # 台灣地圖視覺化（熱力圖、四格比較、縣市長條圖、Top 20 明細）
     └── results/
         ├── legacy/             # 舊版分析結果
         └── transfer/           # 新版分析結果
@@ -146,8 +167,8 @@ jupyter notebook notebooks/02_feature_selection.ipynb
 jupyter notebook notebooks/03_model_us_twostage.ipynb
 # jupyter notebook notebooks/03b_model_explainability.ipynb    # 三分類 SHAP（可選，供比較用）
 jupyter notebook notebooks/03b_model_explainability_twostage.ipynb
-jupyter notebook notebooks/04_transfer_taiwan.ipynb    # 尚未實作
-jupyter notebook notebooks/05_mada.ipynb    # 尚未實作
+jupyter notebook notebooks/04_transfer_taiwan.ipynb    # 台灣遷移推論
+jupyter notebook notebooks/05_mada.ipynb               # MADA 優先序排名
 ```
 
 ---
